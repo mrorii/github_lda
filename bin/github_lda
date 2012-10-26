@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'github_lda/cli'
+
+GithubLda::CLI::run
