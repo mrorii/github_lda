@@ -1,8 +1,8 @@
-# Github LDA - Collaborative Topic Modeling for Recommending Github Repos
+# GitHub LDA - Collaborative Topic Modeling for Recommending Github Repos
 
-## What is Github LDA?
+## What is GitHub LDA?
 
-Github LDA is a library that applies topic modeling on Github repos to improve repository recommendation.
+GitHub LDA is a library that applies topic modeling on GitHub repos to improve repository recommendation.
 
 ## Usage
 
