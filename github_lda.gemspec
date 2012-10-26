@@ -8,9 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = GithubLda::VERSION
   gem.authors       = ["Naoki Orii"]
   gem.email         = ["mrorii@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{Collaborative Topic Modeling for Github Repos}
+  gem.summary       = %q{Collaborative Topic Modeling for Github Repos}
+  gem.homepage      = "https://github.com/mrorii/github_lda"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
