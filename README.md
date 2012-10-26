@@ -6,7 +6,14 @@ GitHub LDA is a library that applies topic modeling on GitHub repos to improve r
 
 ## Usage
 
-TODO: Write usage instructions here
++ Download the Github Contest dataset from [https://github.s3.amazonaws.com/data/download.zip][data]
+
+    wget https://github.s3.amazonaws.com/data/download.zip
+    unzip download.zip
+
++ Clone the git repositories from GitHub
+
+    github_lda clone /path/to/repos.txt --output /tmp
 
 ## Resources
 
@@ -22,4 +29,5 @@ Chong Wang and David M. Blei. 2011. Collaborative Topic Modeling for Recommendin
 [wikipedia]: http://en.wikipedia.org/wiki/Latent_Dirichlet_allocation
 [blog1]: https://github.com/blog/466-the-2009-github-contest
 [blog2]: https://github.com/blog/481-about-the-github-contest
+[data]: https://github.s3.amazonaws.com/data/download.zip
 
