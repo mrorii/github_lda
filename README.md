@@ -1,29 +1,25 @@
-# GithubLda
+# Github LDA - Collaborative Topic Modeling for Recommending Github Repos
 
-TODO: Write a gem description
+## What is Github LDA?
 
-## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'github_lda'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install github_lda
+Github LDA is a library that applies topic modeling on Github repos to improve repository recommendation.
 
 ## Usage
 
 TODO: Write usage instructions here
 
-## Contributing
+## Resources
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
++ [Wikipedia article on LDA][wikipedia]
++ [Official GitHub Blog post: The 2009 GitHub Contest][blog1]
++ [Official GitHub Blog post: About the GitHub Contest][blog2]
+
+## References
+
+Chong Wang and David M. Blei. 2011. Collaborative Topic Modeling for Recommending Scientific Articles. In Proc of KDD'11  [[pdf][pdf]].
+
+[pdf]: http://www.cs.cmu.edu/~chongw/papers/WangBlei2011.pdf
+[wikipedia]: http://en.wikipedia.org/wiki/Latent_Dirichlet_allocation
+[blog1]: https://github.com/blog/466-the-2009-github-contest
+[blog2]: https://github.com/blog/481-about-the-github-contest
+
