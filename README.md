@@ -6,12 +6,12 @@ GitHub LDA is a library that applies topic modeling on GitHub repos to improve r
 
 ## Usage
 
-+ Download the Github Contest dataset from [https://github.s3.amazonaws.com/data/download.zip][data]
+### Download the Github Contest dataset
 
     wget https://github.s3.amazonaws.com/data/download.zip
     unzip download.zip
 
-+ Clone the git repositories from GitHub
+### Clone the git repositories from GitHub
 
     github_lda clone /path/to/repos.txt --output /tmp
 
