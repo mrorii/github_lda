@@ -1,28 +1,37 @@
 require 'github_lda'
-require 'optparse'
-require 'ostruct'
 
-file = ARGV[0]
-if not file or not File.exists?(file) then
+file       = ARGV[0]
+output_dir = ARGV[1]
+
+if not File.exists?(file) or not File.directory?(output_dir) then
   puts <<-INFO
 Usage:
-  github_lda [options] </path/to/repos.txt>
+  github_lda clone /path/to/repos.txt /path/to/output_dir
 
 Synopsis:
-  Clones all repositories specified in repos.txt
-
-Options:
-  -o, --output dir      Directory to clone repositories to. Defaults to current directory
+  Clones all repositories specified in repos.txt into output_dir
 INFO
   exit(0)
 end
 
-options = OpenStruct.new
-options.output_dir = "."
+repos = File.open(file, 'r') do |f|
+  retval = []
+  f.each do |line|
+    m, repo_id, repo_name = *line.match(/^(\d+):(\S+\/\S+?),/)
+    retval << [repo_id, repo_name]
+  end
+  retval
+end
 
-# parse command-line options
-opts = OptionParser.new
-opts.on('-o', '--output dir') {|dir| options.output_dir = dir }
-opts.parse!(ARGV)
+repos.each do |repo_id, repo_name|
+  git_path = "git://github.com/#{repo_name}.git"
 
-GithubLda.clone_repos(file, options.output_dir)
+  clone_dir = File.join(output_dir, repo_id)
+  if not File.exists?(clone_dir)
+    puts "Cloning #{git_path} into #{clone_dir}"
+    GithubLda.clone_repo(git_path, clone_dir)
+    sleep 1
+  else
+    puts "#{clone_dir} already exists, skipping"
+  end
+end
