@@ -22,6 +22,7 @@ def recursive_file_gen(directory):
         for f in files:
             yield os.path.join(root, f)
 
+
 class Tokenizer:
     def __init__(self):
         self.word_ptn      = re.compile(r'[A-Za-z]+')
@@ -61,17 +62,21 @@ class Tokenizer:
             retval.extend(s)
         return retval
 
+
 def main():
     parser = argparse.ArgumentParser(description='Calculate term frequency')
     parser.add_argument('--input', help='input directory', required=True)
+    parser.add_argument('--output', help='output file', required=True)
 
     args = parser.parse_args()
 
     tokenizer = Tokenizer()
     tf = tokenizer.calculate_tf_for_directory(args.input)
-    for term in sorted(tf):
-        freq = tf[term]
-        print '%s\t%s' % (term, freq)
+
+    with open(args.output, 'w') as f:
+        for term in sorted(tf):
+            freq = tf[term]
+            f.write('%s\t%s\n' % (term, freq))
 
 if __name__ == '__main__':
     main()
