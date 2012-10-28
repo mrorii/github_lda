@@ -15,6 +15,6 @@ class TestRepository < Test::Unit::TestCase
 
   def test_compute_termfreq
     r = repo(File.expand_path("../../samples/Ruby", __FILE__))
-    assert_equal({"'foobar'" =>2, "Foo" => 1}, r.compute_termfreq)
+    assert_equal({"foobar" =>2, "foo" => 1}, r.compute_termfreq)
   end
 end

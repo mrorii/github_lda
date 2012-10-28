@@ -2,6 +2,7 @@ require 'cgi'
 require 'linguist'
 
 require 'github_lda/parser'
+require 'github_lda/tokenizer'
 
 module GithubLda
   # A simple wrapper over Linguist::Repository
@@ -28,6 +29,7 @@ module GithubLda
       @computed_termfreq = false
       @termfreq = Hash.new { 0 }
       @parser = Parser.new
+      @tokenizer = Tokenizer.new
     end
 
     # Publlic: Compute the aggregate term frequency for each blob in the Repository.
@@ -45,10 +47,13 @@ module GithubLda
 
         # Only include programming languages
         if blob.language.type == :programming and blob.safe_to_colorize?
-          tokens = @parser.parse(CGI.unescapeHTML(blob.colorize()))
+          words = @parser.parse(CGI.unescapeHTML(blob.colorize()))
 
-          tokens.each do |token|
-            @termfreq[token] += 1
+          words.each do |word|
+            tokens = @tokenizer.tokenize(word)
+            tokens.each do |token|
+              @termfreq[token] += 1
+            end
           end
         end
       end

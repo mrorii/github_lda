@@ -45,7 +45,7 @@ Pathname.new(options[:input]).children.select { |c| c.directory? }.each do |dir|
 
   output_file = File.join(options[:output], "#{dir.basename}.txt")
   open(output_file, 'w') do |f|
-    term_frequency.each do |term, frequency|
+    term_frequency.sort.each do |term, frequency|
       f.puts("#{term}\t#{frequency}")
     end
   end
