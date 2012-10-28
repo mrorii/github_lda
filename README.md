@@ -20,6 +20,8 @@ GitHub LDA is a library that applies topic modeling on GitHub repos to improve r
 
     mkdir term_freq_dir
     github_lda calctf -i repo_dir -o term_freq_dir
+    
+### ...
 
 ## Resources
 
