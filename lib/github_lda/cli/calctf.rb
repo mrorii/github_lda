@@ -40,7 +40,14 @@ end
 Pathname.new(options[:input]).children.select { |c| c.directory? }.each do |dir|
   puts "Calculating term frequency for #{dir}"
 
+  repo = GithubLda::Repository.from_directory(dir)
+  term_frequency = repo.compute_termfreq
+
   output_file = File.join(options[:output], "#{dir.basename}.txt")
-  GithubLda.calc_tf(dir, output_file)
+  open(output_file, 'w') do |f|
+    term_frequency.each do |term, frequency|
+      f.puts("#{term}\t#{frequency}")
+    end
+  end
 end
 
