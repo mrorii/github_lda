@@ -9,19 +9,22 @@ from collections import defaultdict
 from pygments.lexers import guess_lexer_for_filename
 import pygments.token
 
+# from fileblob import FileBlob
+
 def filter_tokens(tokens):
     return filter(lambda token: token[0] == pygments.token.Token.Name
-                          or token[0] == pygments.token.Token.Literal.String.Single
-                          or token[0] == pygments.token.Token.Literal.String
-                          or token[0] == pygments.token.Name.Constant
-                          or token[0] == pygments.token.Name.Function,
-                          tokens)
+                             or token[0] == pygments.token.Token.Literal.String.Single
+                             or token[0] == pygments.token.Token.Literal.String
+                             or token[0] == pygments.token.Name.Constant
+                             or token[0] == pygments.token.Name.Function,
+                             tokens)
 
 def recursive_file_gen(directory):
     for root, dirs, files in os.walk(directory):
+        if '.git' in dirs:
+            continue # ignore .git
         for f in files:
             yield os.path.join(root, f)
-
 
 class Tokenizer:
     def __init__(self):
@@ -42,11 +45,16 @@ class Tokenizer:
 
     def get_tokens(self, filepath):
         code = open(filepath).read()
-        lexer = guess_lexer_for_filename(os.path.basename(filepath), code)
+        # blob = FileBlob(filepath)
 
-        tokens = lexer.get_tokens(code)
-        tokens = filter_tokens(tokens)
-        return map(lambda token: token[1], tokens)
+        try:
+            lexer = guess_lexer_for_filename(os.path.basename(filepath), code)
+            tokens = lexer.get_tokens(code)
+            tokens = filter_tokens(tokens)
+            tokens =  map(lambda token: token[1], tokens)
+        except:
+            tokens = self.word_ptn.findall(code)
+        return tokens
 
     def preprocess(self, token):
         retval = []

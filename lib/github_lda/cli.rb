@@ -1,6 +1,6 @@
 module GithubLda
   module CLI
-    COMMANDS = %w[clone]
+    COMMANDS = %w[clone calctf]
 
     def self.run
       command = ARGV.shift
