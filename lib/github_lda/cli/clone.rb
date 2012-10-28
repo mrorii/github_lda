@@ -1,32 +1,53 @@
 require 'github_lda'
+require 'optparse'
 
-file       = ARGV[0]
-output_dir = ARGV[1]
-
-if not File.exists?(file) or not File.directory?(output_dir) then
-  puts <<-INFO
+info = <<-INFO
 Usage:
-  github_lda clone /path/to/repos.txt /path/to/output_dir
+  github_lda clone -i /path/to/repos.txt -o /path/to/repo_dir
 
 Synopsis:
-  Clones all repositories specified in repos.txt into output_dir
+  Clones all repositories
+
+Arguments:
+  -i, --input     Path to repos.txt
+  -o, --output    Path to clone the repositories into
 INFO
-  exit(0)
+
+# parse command-line arguments
+options = {}
+optparse = OptionParser.new do |opts|
+  opts.on('-i', '--input FILE') { |i| options[:input] = i }
+  opts.on('-o', '--output DIRECTORY') { |o| options[:output] = o }
 end
 
-repos = File.open(file, 'r') do |f|
-  retval = []
-  f.each do |line|
-    m, repo_id, repo_name = *line.match(/^(\d+):(\S+\/\S+?),/)
-    retval << [repo_id, repo_name]
+begin
+  optparse.parse!
+  mandatory = [:input, :output]
+  missing = mandatory.select{ |param| options[param].nil? }
+  if not missing.empty?
+    puts "Missing arguments: #{missing.join(', ')}"
+    puts info
+    exit(1)
   end
-  retval
+rescue OptionParser::InvalidOption, OptionParser::MissingArgument
+  puts $!.to_s
+  puts optparse
+  exit
 end
 
-repos.each do |repo_id, repo_name|
+def each_repo(file)
+  repos = File.open(file, 'r') do |f|
+    f.each do |line|
+      m, repo_id, repo_name = *line.match(/^(\d+):(\S+\/\S+?),/)
+      yield repo_id, repo_name
+    end
+  end
+end
+
+each_repo(options[:input]) do |repo_id, repo_name|
   git_path = "git://github.com/#{repo_name}.git"
 
-  clone_dir = File.join(output_dir, repo_id)
+  clone_dir = File.join(options[:output], repo_id)
   if not File.exists?(clone_dir)
     puts "Cloning #{git_path} into #{clone_dir}"
     GithubLda.clone_repo(git_path, clone_dir)

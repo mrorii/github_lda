@@ -1,11 +1,13 @@
 require 'github_lda/version'
 require 'grit'
+require 'linguist'
+require 'pygments'
 
 module GithubLda
   # Public: Clones a single repo
   #
   # git_path   - Repository's git URL
-  # output_dir - Path to close the repository into.
+  # output_dir - Path to clone the repository into.
   def self.clone_repo(git_path, output_dir)
     repo = Grit::Git.new('/tmp/tmp') # FIX ME
     process = repo.clone(

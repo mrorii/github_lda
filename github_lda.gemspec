@@ -19,5 +19,5 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency "grit", ">= 2.5.0"
   gem.add_runtime_dependency "github-linguist", ">= 2.3.4"
-  gem.add_runtime_dependency "pygments.rb", ">= 0.3.2"
+  # gem.add_runtime_dependency "pygments.rb", ">= 0.3.2"
 end
