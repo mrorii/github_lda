@@ -7,7 +7,7 @@ module GithubLda
     # Path for the allowed token classes
     PATH = File.expand_path('../allowed_classes.yml', __FILE__)
 
-    # Hash of allowed token classes
+    # Array of allowed token classes
     if File.exist?(PATH)
       ALLOWED_CLASSES = YAML.load_file(PATH)
     end

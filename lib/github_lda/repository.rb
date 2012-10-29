@@ -5,7 +5,8 @@ require 'github_lda/parser'
 require 'github_lda/tokenizer'
 
 module GithubLda
-  # A simple wrapper over Linguist::Repository
+  # A simple class over representing a repository.
+  # Stores an enumerator of Linguist::Fileblob objects
   class Repository
     # Public: Initialize a new Repository from a File directory
     #
