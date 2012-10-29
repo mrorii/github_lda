@@ -46,9 +46,19 @@ module GithubLda
         next if blob.vendored? || blob.generated? || blob.language.nil?
 
         # Only include programming languages
-        if blob.language.type == :programming and blob.safe_to_colorize?
-          words = @parser.parse(CGI.unescapeHTML(blob.colorize()))
+        if blob.language.type == :programming
+          words = []
 
+          # Linguist::FileBlob#safe_to_colorize? can fail
+          # with "invalid byte sequence in UTF-8"
+          begin
+            if blob.safe_to_colorize?
+              words = @parser.parse(CGI.unescapeHTML(blob.colorize()))
+            end
+          rescue
+            # do nothing
+          end
+  
           words.each do |word|
             tokens = @tokenizer.tokenize(word)
             tokens.each do |token|
