@@ -50,7 +50,7 @@ each_repo(options[:input]) do |repo_id, repo_name|
   clone_dir = File.join(options[:output], repo_id)
   if not File.exists?(clone_dir)
     puts "Cloning #{git_path} into #{clone_dir}"
-    GithubLda.clone_repo(git_path, clone_dir)
+    GithubLda::Cloner.clone_repo(git_path, clone_dir)
     sleep 1
   else
     puts "#{clone_dir} already exists, skipping"

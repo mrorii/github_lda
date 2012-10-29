@@ -1,4 +1,4 @@
-# GitHub LDA - Collaborative Topic Modeling for Recommending Github Repos
+# Collaborative Topic Modeling for Recommending Github Repos
 
 ## What is GitHub LDA?
 
