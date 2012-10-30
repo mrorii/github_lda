@@ -1,6 +1,6 @@
 require 'github_lda'
+require 'github_lda/directory'
 require 'optparse'
-require 'pathname'
 
 info = <<-INFO
 Usage:
@@ -37,7 +37,7 @@ rescue OptionParser::InvalidOption, OptionParser::MissingArgument
   exit
 end
 
-Pathname.new(options[:input]).children.select { |c| c.directory? }.each do |dir|
+GithubLda::Directory.new(options[:input]).each do |dir|
   puts "Calculating term frequency for #{dir}"
 
   repo = GithubLda::Repository.from_directory(dir)

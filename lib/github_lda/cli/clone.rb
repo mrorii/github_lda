@@ -1,4 +1,5 @@
 require 'github_lda'
+require 'github_lda/directory'
 require 'optparse'
 
 info = <<-INFO
@@ -47,7 +48,9 @@ end
 each_repo(options[:input]) do |repo_id, repo_name|
   git_path = "git://github.com/#{repo_name}.git"
 
-  clone_dir = File.join(options[:output], repo_id)
+  root_dir = GithubLda::Directory.new(options[:output])
+  clone_dir = root_dir.path(repo_id)
+
   if not File.exists?(clone_dir)
     puts "Cloning #{git_path} into #{clone_dir}"
     GithubLda::Cloner.clone_repo(git_path, clone_dir)

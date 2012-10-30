@@ -16,6 +16,26 @@ GitHub LDA is a library that applies topic modeling on GitHub repos to improve r
     mkdir repo_dir
     github_lda clone -i download/repos.txt -o repo_dir
 
+As there are around 120,000 repositories to download, this will take a VERY long time (TODO: parallelize clone) and will eat up a huge chunk of disk space (up to 1TB). In order to avoid the number of directories limit in \*nix, by default it will subdivide the repositories into 12 subdirectories:
+
+    repo_dir
+    |---0
+    |   |---1
+    |   |---2
+    |   |---...
+    |   `---9999
+    |---1
+    |   |---10000
+    |   |---10001
+    |   |---...
+    .
+    |   `---119999
+    `---12
+        |---120000
+        |---120001
+        |---...
+        `---123344
+
 ### Calculate the term frequency for each repository
 
     mkdir term_freq_dir

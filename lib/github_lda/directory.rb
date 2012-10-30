@@ -1,3 +1,5 @@
+require 'pathname'
+
 module GithubLda
   class Directory
     attr_reader :modulo
@@ -7,13 +9,25 @@ module GithubLda
       @modulo = modulo
     end
 
-    def path(repo_id, extname='txt')
+    def path(repo_id, extname=nil)
       Dir.mkdir(@root_dir) if not Dir.exists?(@root_dir)
 
       sub_dir = File.join(@root_dir, (repo_id.to_i / @modulo).to_s)
       Dir.mkdir(sub_dir) if not Dir.exists?(sub_dir)
 
-      File.join(sub_dir, "#{repo_id}.#{extname}")
+      if extname
+        return File.join(sub_dir, "#{repo_id}.#{extname}")
+      else
+        return File.join(sub_dir, "#{repo_id}")
+      end
+    end
+
+    def each
+      Pathname.new(@root_dir).children.select { |c| c.directory? }.each do |child_dir|
+        child_dir.children.select { |g| g.directory? }.each do |grandchild_dir|
+          yield grandchild_dir
+        end
+      end
     end
   end
 end
