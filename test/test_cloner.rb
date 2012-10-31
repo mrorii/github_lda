@@ -1,6 +1,7 @@
 require 'github_lda/cloner'
 
 require 'test/unit'
+require 'fileutils'
 
 class TestCloner < Test::Unit::TestCase
   include GithubLda
