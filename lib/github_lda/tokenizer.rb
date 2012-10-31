@@ -2,7 +2,6 @@ module GithubLda
   class Tokenizer
     def initialize
       @word_ptn = Regexp.new('[A-Za-z]+')
-      @camelcase_splitter = Regexp.new('(?=[A-Z])')
     end
 
     def tokenize(str)
@@ -10,7 +9,10 @@ module GithubLda
 
       retval = []
       words.each do |word|
-        tokens = word.split @camelcase_splitter
+        # deal with camel case
+        tokens = word.gsub(/([A-Z]+)([A-Z][a-z])/,'\1 \2').
+                      gsub(/([a-z\d])([A-Z])/,'\1 \2').
+                      split(' ')
 
         tokens.each do |token|
           retval << token.downcase
