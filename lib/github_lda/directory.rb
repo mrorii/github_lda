@@ -24,8 +24,19 @@ module GithubLda
 
     # Yields all repos
     def each
-      Pathname.new(@root_dir).children.select { |c| c.directory? }.each do |child_dir|
-        child_dir.children.select { |g| g.directory? }.each do |grandchild_dir|
+      # Ugly hack to traverse repos in numerical order
+      Pathname.new(@root_dir).children.
+      select { |c| c.directory? }.
+      map { |c| c.basename.to_s.to_i }.
+      sort.
+      each do |child|
+        child_dir = Pathname.new(File.join(@root_dir, child.to_s))
+        child_dir.children.
+        select { |g| g.directory? }.
+        map { |g| g.basename.to_s.to_i }.
+        sort.
+        each do |grandchild|
+          grandchild_dir = Pathname.new(File.join(child_dir, grandchild.to_s))
           yield grandchild_dir
         end
       end
