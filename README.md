@@ -77,3 +77,5 @@ Chong Wang and David M. Blei. 2011. Collaborative Topic Modeling for Recommendin
 [data]: https://github.s3.amazonaws.com/data/download.zip
 [lang]: https://github.com/github/linguist/blob/master/lib/linguist/languages.yml
 
+
+Test only
