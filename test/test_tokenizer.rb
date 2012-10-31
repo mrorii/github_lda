@@ -14,6 +14,13 @@ class TestTokenizer < Test::Unit::TestCase
     assert_equal(['foobar'], @t.tokenize('foobar'))
   end
 
+  def test_tokenize_empty
+    assert_equal([], @t.tokenize(''))
+    assert_equal([], @t.tokenize(' '))
+    assert_equal([], @t.tokenize("\t"))
+    assert_equal([], @t.tokenize("\n"))
+  end
+
   def test_tokenize_lowercase
     assert_equal(['foo', 'bar'], @t.tokenize('foo Bar'))
     assert_equal(['foo', 'bar'], @t.tokenize('Foo Bar'))
@@ -32,7 +39,9 @@ class TestTokenizer < Test::Unit::TestCase
   def test_tokenize_nonalpha
     assert_equal(['foobar', 'baz'], @t.tokenize('foobar1 $baz'))
     assert_equal(['foobar', 'baz'], @t.tokenize('"Foobar" baz,'))
+    assert_equal(['foobar', 'baz'], @t.tokenize("'foobar' baz"))
     assert_equal(['foobar'], @t.tokenize('"foobar"'))
+    assert_equal(['foobar'], @t.tokenize("'foobar'"))
   end
 end
 

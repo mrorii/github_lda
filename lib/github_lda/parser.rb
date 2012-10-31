@@ -42,14 +42,10 @@ module GithubLda
   end
 
   class Parser
-    def initialize
-      @doc = Document.new
-      @parser = Nokogiri::HTML::SAX::Parser.new(@doc)
-    end
-
     def parse(html)
-      @parser.parse(html)
-      @doc.tokens
+      doc = Document.new
+      Nokogiri::HTML::SAX::Parser.new(doc).parse(html)
+      doc.tokens
     end
   end
 end
