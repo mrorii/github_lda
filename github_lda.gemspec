@@ -23,4 +23,5 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'grit', '>= 2.5.0'
   gem.add_runtime_dependency 'github-linguist', '>= 2.3.4'
   gem.add_runtime_dependency 'nokogiri', '>= 1.5.5'
+  gem.add_runtime_dependency 'parallel', '>= 0.5.19'
 end

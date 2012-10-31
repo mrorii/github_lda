@@ -22,10 +22,20 @@ module GithubLda
       end
     end
 
+    # Yields all repos
     def each
       Pathname.new(@root_dir).children.select { |c| c.directory? }.each do |child_dir|
         child_dir.children.select { |g| g.directory? }.each do |grandchild_dir|
           yield grandchild_dir
+        end
+      end
+    end
+
+    # Returns all repos as python-like generators
+    def all_repos_as_generator
+      Enumerator.new do |enum|
+        each do |repo|
+          enum.yield repo
         end
       end
     end

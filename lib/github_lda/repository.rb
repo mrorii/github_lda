@@ -43,8 +43,14 @@ module GithubLda
         # Skip binary file extensions
         next if blob.binary_mime_type?
 
-        # Skip vendored or generated blobs
-        next if blob.vendored? || blob.generated? || blob.language.nil?
+        # Linguist::FileBlob#generated? can fail
+        # with "invalid byte sequence in UTF-8"
+        begin
+          # Skip vendored or generated blobs
+          next if blob.vendored? || blob.generated? || blob.language.nil?
+        rescue
+          next
+        end
 
         # Only include programming languages
         if blob.language.type == :programming
@@ -53,14 +59,14 @@ module GithubLda
 
           words = []
 
-          # Linguist::FileBlob#safe_to_colorize? can fail
+          # Linguist::FileBlob#safe_to_colorize? can similarly fail
           # with "invalid byte sequence in UTF-8"
           begin
             if blob.safe_to_colorize?
               words = @parser.parse(CGI.unescapeHTML(blob.colorize()))
             end
           rescue
-            # do nothing
+            next
           end
   
           words.each do |word|
