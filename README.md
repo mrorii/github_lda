@@ -16,7 +16,7 @@ GitHub LDA is a library that applies topic modeling on GitHub repos to improve r
     mkdir repo_dir
     github_lda clone -i download/repos.txt -o repo_dir
 
-As there are around 120,000 repositories to download, this will take a VERY long time (TODO: parallelize clone) and will eat up a huge chunk of disk space (up to 1TB). In order to avoid the number of directories limit in \*nix, by default it will subdivide the repositories into 13 subdirectories:
+As there are around 120,000 repositories to download, this will take a VERY long time (TODO: parallelize clone) and will eat up a huge chunk of disk space (up to 1TB). In order to avoid the number of directories limit in \*nix, by default it will subdivide the repositories into 13 subdirectories as follows:
 
     repo_dir
     |---0
@@ -39,9 +39,26 @@ As there are around 120,000 repositories to download, this will take a VERY long
 ### Calculate the term frequency for each repository
 
     mkdir term_freq_dir
-    github_lda calctf -i repo_dir -o term_freq_dir
-    
-### ...
+    github_lda calctf -i repo_dir -o term_freq_dir [--stopwords=/path/to/stopwords] [--lang=ruby,javascript]
+
+You can limit the repositories of interest by using the --lang flag. By default, term frequencies for source files of all programming languages will be calculated. Refer [here][lang] for the list of available language options.
+
+### Preprocess the corpus and convert it into lda-c format and ctr format data
+
+Generate mult.dat, user.dat, item.dat, and vocab.dat in specified directory
+
+    mkdir data
+    github_lda generate --tf term_freq_dir -i download/data.txt -o data
+
+### Run lda-c-dist
+
+    mkdir lda-result
+    lda est 0.1 100 settings.txt data/mult.dat random lda-result
+
+### Run ctr
+
+    ctr --user data/user.dat --item data/item.dat --mult mult.dat \
+      --theta_init lda-result/final.gamma --beta_init lda-result/final.beta
 
 ## Resources
 
@@ -58,4 +75,5 @@ Chong Wang and David M. Blei. 2011. Collaborative Topic Modeling for Recommendin
 [blog1]: https://github.com/blog/466-the-2009-github-contest
 [blog2]: https://github.com/blog/481-about-the-github-contest
 [data]: https://github.s3.amazonaws.com/data/download.zip
+[lang]: https://github.com/github/linguist/blob/master/lib/linguist/languages.yml
 

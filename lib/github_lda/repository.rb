@@ -36,7 +36,7 @@ module GithubLda
     # Publlic: Compute the aggregate term frequency for each blob in the Repository.
     #
     # Returns a Hash with the term (String) as key and value (Fixnum) as value.
-    def compute_termfreq
+    def compute_termfreq(options={})
       return @termfreq if @computed_termfreq
 
       @enum.each do |blob|
@@ -48,6 +48,9 @@ module GithubLda
 
         # Only include programming languages
         if blob.language.type == :programming
+          # Skip if lang option is on and this blob is not in the list of specified languages
+          next if options[:lang] and not options[:lang].include? blob.language.name
+
           words = []
 
           # Linguist::FileBlob#safe_to_colorize? can fail
