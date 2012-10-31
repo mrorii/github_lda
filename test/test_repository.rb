@@ -6,12 +6,16 @@ require 'fakefs/safe'
 class TestRepository < Test::Unit::TestCase
   include GithubLda
 
+  def setup
+    @dir = File.expand_path("../../samples/Ruby", __FILE__)
+  end
+
   def repo(base_path)
     Repository.from_directory(base_path)
   end
 
   def sample_repo
-    repo(File.expand_path("../../samples/Ruby", __FILE__))
+    repo(@dir)
   end
 
   def test_compute_termfreq
@@ -19,7 +23,6 @@ class TestRepository < Test::Unit::TestCase
   end
 
   def test_each
-    dir = File.expand_path("../../samples/Ruby", __FILE__)
     r = sample_repo
     count = 0
 
@@ -29,6 +32,6 @@ class TestRepository < Test::Unit::TestCase
       end
     end
 
-    assert_equal Dir["#{dir}/*"].length, count
+    assert_equal Dir["#{@dir}/*"].length, count
   end
 end
