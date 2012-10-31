@@ -17,6 +17,8 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
+  gem.add_development_dependency "rake", ">= 0.9.2.2"
+
   gem.add_runtime_dependency "grit", ">= 2.5.0"
   gem.add_runtime_dependency "github-linguist", ">= 2.3.4"
   gem.add_runtime_dependency "nokogiri", ">= 1.5.5"
