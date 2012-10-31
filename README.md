@@ -41,7 +41,7 @@ As there are around 120,000 repositories to download, this will take a VERY long
     mkdir term_freq_dir
     github_lda calctf -i repo_dir -o term_freq_dir [--stopwords=/path/to/stopwords] [--lang=ruby,javascript] [--process=1]
 
-You can limit the repositories of interest by using the --lang option. By default, term frequencies for source files of all programming languages will be calculated. Refer [here][lang] for the list of available language options. You can also specify the number of processors to run on by usin g the --process option.
+You can limit the repositories of interest by using the --lang option. By default, term frequencies for source files of all programming languages will be calculated. Refer [here][lang] for the list of available language options. You can also specify the number of processors to run on by using the --process option.
 
 ### Preprocess the corpus and convert it into lda-c format and ctr format data
 
