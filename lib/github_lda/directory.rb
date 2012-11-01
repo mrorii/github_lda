@@ -1,4 +1,5 @@
 require 'pathname'
+require 'fileutils'
 
 module GithubLda
   class Directory
@@ -10,10 +11,10 @@ module GithubLda
     end
 
     def path(repo_id, extname=nil)
-      Dir.mkdir(@root_dir) if not Dir.exists?(@root_dir)
+      FileUtils.mkdir_p(@root_dir) if not Dir.exists?(@root_dir)
 
       sub_dir = File.join(@root_dir, (repo_id.to_i / @modulo).to_s)
-      Dir.mkdir(sub_dir) if not Dir.exists?(sub_dir)
+      FileUtils.mkdir_p(sub_dir) if not Dir.exists?(sub_dir)
 
       if extname
         return File.join(sub_dir, "#{repo_id}.#{extname}")

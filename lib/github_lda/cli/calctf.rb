@@ -22,7 +22,7 @@ Options:
   -l, --lang      Comma-separated list of languages to consider.
                   List of available languages are at:
                       https://github.com/github/linguist/blob/master/lib/linguist/languages.yml
-  -p, --process   Number of processes to run on
+  -p, --process   Number of processes to run on (defaults to 1)
 
 INFO
 

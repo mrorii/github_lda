@@ -2,9 +2,11 @@ require 'github_lda'
 require 'github_lda/directory'
 require 'optparse'
 
+require 'parallel'
+
 info = <<-INFO
 Usage:
-  github_lda clone -i /path/to/repos.txt -o /path/to/repo_dir
+  github_lda clone -i /path/to/repos.txt -o /path/to/repo_dir [-p 4]
 
 Synopsis:
   Clones all repositories
@@ -12,13 +14,16 @@ Synopsis:
 Arguments:
   -i, --input     Path to repos.txt
   -o, --output    Path to clone the repositories into
+Options:
+  -p, --process   Number of downloads to run in parallel (defaults to 1)
 INFO
 
 # parse command-line arguments
-options = {}
+options = { :process => 1 }
 optparse = OptionParser.new do |opts|
   opts.on('-i', '--input FILE') { |i| options[:input] = i }
   opts.on('-o', '--output DIRECTORY') { |o| options[:output] = o }
+  opts.on('-p', '--process NUM') { |p| options[:process] = p.to_i }
 end
 
 begin
@@ -36,16 +41,18 @@ rescue OptionParser::InvalidOption, OptionParser::MissingArgument
   exit
 end
 
-def each_repo(file)
-  repos = File.open(file, 'r') do |f|
+def repos(file)
+  retval = []
+  File.open(file, 'r') do |f|
     f.each do |line|
       m, repo_id, repo_name = *line.match(/^(\d+):(\S+\/\S+?),/)
-      yield repo_id, repo_name
+      retval << [repo_id, repo_name]
     end
   end
+  retval
 end
 
-each_repo(options[:input]) do |repo_id, repo_name|
+Parallel.map(repos(options[:input]), :in_processes => options[:process]) do |repo_id, repo_name|
   git_path = "git://github.com/#{repo_name}.git"
 
   root_dir = GithubLda::Directory.new(options[:output])

@@ -14,9 +14,9 @@ GitHub LDA is a library that applies topic modeling on GitHub repos to improve r
 ### Clone the git repositories from GitHub
 
     mkdir repo_dir
-    github_lda clone -i download/repos.txt -o repo_dir
+    github_lda clone -i download/repos.txt -o repo_dir [-p 4]
 
-As there are around 120,000 repositories to download, this will take a VERY long time (TODO: parallelize clone) and will eat up a huge chunk of disk space (up to 1TB). In order to avoid the number of directories limit in \*nix, by default it will subdivide the repositories into 13 subdirectories as follows:
+As there are around 120,000 repositories to download, this will take a VERY long time and will eat up a huge chunk of disk space (up to 1TB). You can specify the number of clones to run in parallel by using the -p option. In order to avoid the number of directories limit in \*nix, by default it will subdivide the repositories into 13 subdirectories as follows:
 
     repo_dir
     |---0
